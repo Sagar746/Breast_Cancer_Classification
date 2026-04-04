@@ -30,5 +30,4 @@ env/
 __pycache__/
 *.py[cod]
 .env
-*.sqlite3
 # backend/app/models/*.pkl  # If you store ML models locally
