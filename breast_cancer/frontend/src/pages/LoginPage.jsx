@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { authApi } from "../api/client";
 import { useAuthStore } from "../store/authStore";
+import logo from "../assets/logo.png";
+import { Microscope } from 'lucide-react';
 import toast from "react-hot-toast";
 
 export default function LoginPage() {
@@ -29,14 +31,15 @@ export default function LoginPage() {
   };
 
   return (
-    /* The "bg-rose-50/30" makes the whole page a very lite, soft tint */
-    <div className="min-h-screen bg-[#fdf2f2] flex items-center justify-center p-6">
+    
+    <div className="min-h-screen bg-[#f0f7ff] flex items-center justify-center p-6">
       
       <div className="w-full max-w-md">
         {/* Simple Branding */}
         <div className="text-center mb-10">
           <span className="text-4xl"></span>
           <h1 className="text-2xl font-bold text-slate-900 mt-2">Breast Cancer Classification</h1>
+          <Microscope className="w-12 h-12 text-rose-500 mb-4 mx-auto" />
           {/* <p className="text-slate-500 text-sm">Diagnostic Analysis System</p> */}
         </div>
 
