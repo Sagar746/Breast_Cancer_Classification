@@ -7,8 +7,8 @@ import { Microscope } from 'lucide-react';
 import toast from "react-hot-toast";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("admin@cancer.ai");
-  const [password, setPassword] = useState("admin123");
+  const [email, setEmail] = useState(" ");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const { setAuth } = useAuthStore();
   const navigate = useNavigate();
