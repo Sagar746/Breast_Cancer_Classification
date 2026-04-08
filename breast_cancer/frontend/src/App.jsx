@@ -1,21 +1,45 @@
+import { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import LoginPage from "./pages/LoginPage";
+import Dashboard from "./pages/Dashboard";
+import { useAuthStore } from "./store/authStore";
+
+// Wraps any route that requires login
+function ProtectedRoute({ children }) {
+  const { token } = useAuthStore();
+  return token ? children : <Navigate to="/login" replace />;
+}
 
 function App() {
+  const { token } = useAuthStore();
+
+  // Force re-render when token changes
+  useEffect(() => {
+    const unsubscribe = useAuthStore.subscribe(
+      (state) => state.token,
+      () => {} // Trigger re-render on token change
+    );
+    return () => unsubscribe();
+  }, []);
+
   return (
     <BrowserRouter>
-      {/* This allows the "Welcome" popups to work */}
       <Toaster position="top-center" reverseOrder={false} />
-      
       <Routes>
-        {/* The main route shows the Login Page */}
         <Route path="/login" element={<LoginPage />} />
-        
-        {/* If someone goes to the home page, send them to login for now */}
-        <Route path="/" element={<Navigate to="/login" />} />
-        
-        {/* We will add the Dashboard route here in the next step! */}
+
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Root: go to dashboard if logged in, otherwise login */}
+        <Route path="/" element={<Navigate to={token ? "/dashboard" : "/login"} replace />} />
       </Routes>
     </BrowserRouter>
   );
