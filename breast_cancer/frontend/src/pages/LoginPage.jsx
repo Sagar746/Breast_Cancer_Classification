@@ -81,10 +81,10 @@ export default function LoginPage() {
             </button>
           </form>
 
-          {/* Minimal Demo Footer */}
+          {/* Minimal Footer */}
           <div className="mt-8 pt-6 border-t border-slate-50 text-center">
             <p className="text-[10px] text-slate-400 font-medium">
-              ADMIN:   OR  DOCTOR: 
+              Enter your credentials: 
             </p>
           </div>
         </div>
