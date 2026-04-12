@@ -105,7 +105,7 @@ export default function Dashboard() {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-rose-500 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading dashboard...</p>
+          <p className="mt-4 text-gray-600">Be patience not patient...</p>
         </div>
       </div>
     );
@@ -119,7 +119,7 @@ export default function Dashboard() {
           <div className="flex justify-between items-center py-4">
             <div>
               <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-              <p className="text-sm text-gray-600">Welcome back, {user?.full_name}</p>
+              <p className="text-sm text-gray-600">Welcome !!!!, {user?.full_name}</p>
             </div>
             <button
               onClick={handleLogout}
