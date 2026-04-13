@@ -27,5 +27,12 @@ export const authApi = {
     ),
   me: () => api.get("/auth/me"),
 };
+
+export const patientsApi = {
+  getAll: () => api.get("/patients"),
+  getById: (id) => api.get(`/patients/${id}`),
+  create: (data) => api.post("/patients", data), // to be continue for now to just check the page. 
+};
+
 export default api;
 
