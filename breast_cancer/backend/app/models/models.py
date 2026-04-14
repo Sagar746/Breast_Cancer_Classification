@@ -44,3 +44,61 @@ class Patient(Base):
                                   foreign_keys=[created_by])
     predictions   = relationship("Prediction", back_populates="patient",
                                   cascade="all, delete")
+
+
+
+
+class Prediction(Base):
+    __tablename__ = "predictions"
+    id                      = Column(CHAR(36), primary_key=True, default=new_uuid)
+    patient_id              = Column(CHAR(36),
+                                     ForeignKey("patients.id", ondelete="CASCADE"),
+                                     nullable=False)
+    predicted_by            = Column(CHAR(36),
+                                     ForeignKey("users.id", ondelete="SET NULL"))
+    # 30 features
+    mean_radius             = Column(Double)
+    mean_texture            = Column(Double)
+    mean_perimeter          = Column(Double)
+    mean_area               = Column(Double)
+    mean_smoothness         = Column(Double)
+    mean_compactness        = Column(Double)
+    mean_concavity          = Column(Double)
+    mean_concave_points     = Column(Double)
+    mean_symmetry           = Column(Double)
+    mean_fractal_dimension  = Column(Double)
+    radius_error            = Column(Double)
+    texture_error           = Column(Double)
+    perimeter_error         = Column(Double)
+    area_error              = Column(Double)
+    smoothness_error        = Column(Double)
+    compactness_error       = Column(Double)
+    concavity_error         = Column(Double)
+    concave_points_error    = Column(Double)
+    symmetry_error          = Column(Double)
+    fractal_dimension_error = Column(Double)
+    worst_radius            = Column(Double)
+    worst_texture           = Column(Double)
+    worst_perimeter         = Column(Double)
+    worst_area              = Column(Double)
+    worst_smoothness        = Column(Double)
+    worst_compactness       = Column(Double)
+    worst_concavity         = Column(Double)
+    worst_concave_points    = Column(Double)
+    worst_symmetry          = Column(Double)
+    worst_fractal_dimension = Column(Double)
+    # ML output
+    prediction              = Column(Enum("Malignant","Benign"), nullable=False)
+    confidence              = Column(Double, nullable=False)
+    malignant_prob          = Column(Double, nullable=False)
+    benign_prob             = Column(Double, nullable=False)
+    model_version           = Column(String(50), default="v1.0")
+    threshold_used          = Column(Double, default=0.5)
+    actual_diagnosis        = Column(Enum("Malignant","Benign"))
+    diagnosis_confirmed     = Column(Boolean, default=False)
+    notes                   = Column(Text)
+    predicted_at            = Column(DateTime, default=now)
+    updated_at              = Column(DateTime, default=now, onupdate=now)
+    patient                 = relationship("Patient", back_populates="predictions")
+    predictor               = relationship("User", back_populates="predictions",
+                                            foreign_keys=[predicted_by])
