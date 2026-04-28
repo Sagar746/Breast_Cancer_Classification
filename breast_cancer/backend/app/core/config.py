@@ -7,7 +7,7 @@ class Settings(BaseSettings):
     SECRET_KEY:                  str = "dev-secret-change-in-production"
     ALGORITHM:                   str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 1440
-    # ML_MODEL_PATH:               str = "../ml/models/pipeline.joblib"
+    ML_MODEL_PATH:               str = "../ml/models/pipeline.joblib"
 
     class Config:
         env_file = ".env"
