@@ -119,7 +119,7 @@ export default function Dashboard() {
           <div className="flex justify-between items-center py-4">
             <div>
               <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-              <p className="text-sm text-gray-600">Welcome !!!!, {user?.full_name}</p>
+              <p className="text-sm text-gray-600"> {user?.full_name}</p>
             </div>
             <button
               onClick={handleLogout}
