@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
-//import { patientsApi, predictionsApi } from "../api/client";
+import { patientsApi, /*predictionsApi*/ } from "../api/client";
 import { Users, Activity, TrendingUp, LogOut, Plus, X } from "lucide-react";
 import toast from "react-hot-toast";
 
@@ -119,7 +119,7 @@ export default function Dashboard() {
           <div className="flex justify-between items-center py-4">
             <div>
               <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-              <p className="text-sm text-gray-600">Welcome !!!!, {user?.full_name}</p>
+              <p className="text-sm text-gray-600"> {user?.full_name}</p>
             </div>
             <button
               onClick={handleLogout}

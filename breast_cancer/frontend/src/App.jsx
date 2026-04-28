@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import LoginPage from "./pages/LoginPage";
 import Dashboard from "./pages/Dashboard";
+import PatientsPage from "./pages/PatientsPage"; // Import PatientsPage
 import { useAuthStore } from "./store/authStore";
 
 // Wraps any route that requires login
@@ -28,6 +29,8 @@ function App() {
       <Toaster position="top-center" reverseOrder={false} />
       <Routes>
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/patients" element={<PatientsPage />} /> //ProtectedRoute not added will do later comment for reminder
+  
 
         <Route
           path="/dashboard"
@@ -40,6 +43,7 @@ function App() {
 
         {/* Root: go to dashboard if logged in, otherwise login */}
         <Route path="/" element={<Navigate to={token ? "/dashboard" : "/login"} replace />} />
+
       </Routes>
     </BrowserRouter>
   );
