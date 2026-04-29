@@ -41,4 +41,17 @@ class BreastCancerPredictor:
         )
         self.model.fit(X_train_scaled, y_train)
 
+        # Evaluate the model
+        y_pred = self.model.predict(X_test_scaled)
+        accuracy = accuracy_score(y_test, y_pred)
+
+        print(f"Model trained successfully!")
+        print(f"Accuracy: {accuracy:.4f}")
+        print(f"Feature names: {list(self.feature_names)}")
+
+        # Save the model and scaler
+        self.save_model()
+
+        return accuracy
+
         
