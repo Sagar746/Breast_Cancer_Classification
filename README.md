@@ -1,13 +1,16 @@
 # Breast_Cancer_Classification
 This repository implements a machine learning pipeline to automate the detection of breast cancer.The model distinguishes between Malignant and Benign cases to assist in early clinical diagnosis.
 
-**Tech Stack For Backend - FastAPI**
-**Tech Stack For Frontend - React JS**
-**Database - SQLITE**
-**Authentication - JSON WEB TOKEN AUTHENTICATION (JWT)**
+## Technology Used💻
+1. FastAPI
+2. ReactJs
+3. SQLITE
+4. Numpy
+5. Pandas
+6. Scikit-Learn
 
 
-**Installation of Frontend**
+**Installation of Frontend** :basecampy:
 ```
 1. cd frontend
 2. npm install
@@ -15,7 +18,7 @@ This repository implements a machine learning pipeline to automate the detection
 
 ```
 
-**Installation of Backend**
+**Installation of Backend** *️⃣
 ```
 1. cd backend
 2. python -m venv env
@@ -24,3 +27,9 @@ This repository implements a machine learning pipeline to automate the detection
 5. uvicorn app.main:app --reload
 
 ```
+__Admin Login__
+> [!Note]
+> username: admin@cancerai.com
+> password: admin123.
+
+
