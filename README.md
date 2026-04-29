@@ -7,7 +7,7 @@ This repository implements a machine learning pipeline to automate the detection
 ## Authentication - JSON WEB TOKEN AUTHENTICATION (JWT)
 
 
-** Installation of Frontend **
+**Installation of Frontend**
 ```
 1. cd frontend
 2. npm install
