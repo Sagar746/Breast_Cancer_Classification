@@ -3,11 +3,16 @@ from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from app.api.auth import router as auth_router
 from app.api.patients import router as patients_router
+from app.api.predictions import router as predictions_router
+from app.core.database import engine, Base
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    print('Breast Cnacer API is starting up...')
+    print('Breast Cancer API is starting up...')
+    # Create database tables
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
     yield
 
 app = FastAPI(
@@ -27,6 +32,7 @@ app.add_middleware(
 
 app.include_router(auth_router, prefix="/auth", tags=["Auth"])
 app.include_router(patients_router, prefix="/patients", tags=["Patients"])
+app.include_router(predictions_router, prefix="/predictions", tags=["Predictions"])
 
 @app.get("/health")
 async def health():
