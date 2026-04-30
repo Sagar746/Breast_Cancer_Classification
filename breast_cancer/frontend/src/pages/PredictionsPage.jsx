@@ -20,7 +20,7 @@ export default function PredictionsPage() {
     benign_prob: 0.5,
     model_version: "v1.0",
     threshold_used: 0.5,
-    actual_diagnosis: "",
+    actual_diagnosis: null,
     diagnosis_confirmed: false,
     notes: "",
     // Feature fields
@@ -45,10 +45,12 @@ export default function PredictionsPage() {
         predictionsApi.getAll(),
         patientsApi.getAll(),
       ]);
-      setPredictions(predictionsRes.data);
-      setPatients(patientsRes.data);
+      setPredictions(Array.isArray(predictionsRes.data) ? predictionsRes.data : []);
+      setPatients(Array.isArray(patientsRes.data) ? patientsRes.data : []);
     } catch (error) {
       toast.error("Failed to load data");
+      setPredictions([]);
+      setPatients([]);
     } finally {
       setLoading(false);
     }
@@ -61,15 +63,16 @@ export default function PredictionsPage() {
 
   const filteredPredictions = predictions.filter(prediction => {
     const patientName = getPatientName(prediction.patient_id).toLowerCase();
+    const predictionText = (prediction.prediction || "").toLowerCase();
     return patientName.includes(searchTerm.toLowerCase()) ||
-           prediction.prediction.toLowerCase().includes(searchTerm.toLowerCase());
+           predictionText.includes(searchTerm.toLowerCase());
   });
 
   const resetForm = () => {
     setFormData({
       patient_id: "", prediction: "Benign", confidence: 0.5, malignant_prob: 0.5,
       benign_prob: 0.5, model_version: "v1.0", threshold_used: 0.5,
-      actual_diagnosis: "", diagnosis_confirmed: false, notes: "",
+      actual_diagnosis: null, diagnosis_confirmed: false, notes: "",
       mean_radius: null, mean_texture: null, mean_perimeter: null, mean_area: null,
       mean_smoothness: null, mean_compactness: null, mean_concavity: null,
       mean_concave_points: null, mean_symmetry: null, mean_fractal_dimension: null,
@@ -89,6 +92,7 @@ export default function PredictionsPage() {
         ...formData,
         malignant_prob: formData.prediction === "Malignant" ? formData.confidence : (1 - formData.confidence),
         benign_prob: formData.prediction === "Benign" ? formData.confidence : (1 - formData.confidence),
+        actual_diagnosis: formData.actual_diagnosis || null,
       };
 
       if (editingPrediction) {
@@ -109,7 +113,7 @@ export default function PredictionsPage() {
 
   const handleEdit = (prediction) => {
     setEditingPrediction(prediction);
-    setFormData({ ...prediction, actual_diagnosis: prediction.actual_diagnosis || "" });
+    setFormData({ ...prediction, actual_diagnosis: prediction.actual_diagnosis ?? null });
     setShowForm(true);
   };
 
@@ -160,18 +164,18 @@ export default function PredictionsPage() {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {filteredPredictions.map((prediction) => (
-                  <tr key={prediction.id} className="hover:bg-gray-50">
+                {filteredPredictions.map((prediction, index) => (
+                  <tr key={prediction.id || index} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">{getPatientName(prediction.patient_id)}</td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${prediction.prediction === "Malignant" ? "bg-red-100 text-red-800" : "bg-green-100 text-green-800"}`}>
-                        {prediction.prediction === "Malignant" ? <AlertTriangle className="w-3 h-3 mr-1" /> : <CheckCircle className="w-3 h-3 mr-1" />}
-                        {prediction.prediction}
+                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${prediction.prediction === "Malignant" ? "bg-red-100 text-red-800" : prediction.prediction === "Benign" ? "bg-green-100 text-green-800" : "bg-gray-100 text-gray-800"}`}>
+                        {prediction.prediction === "Malignant" ? <AlertTriangle className="w-3 h-3 mr-1" /> : prediction.prediction === "Benign" ? <CheckCircle className="w-3 h-3 mr-1" /> : null}
+                        {prediction.prediction || "Unknown"}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-sm">{(prediction.confidence * 100).toFixed(1)}%</td>
+                    <td className="px-6 py-4 text-sm">{prediction.confidence ? (prediction.confidence * 100).toFixed(1) : '0'}%</td>
                     <td className="px-6 py-4 text-sm">{prediction.actual_diagnosis || "-"} {prediction.diagnosis_confirmed && <CheckCircle className="w-3 h-3 text-green-500 inline ml-1" />}</td>
-                    <td className="px-6 py-4 text-sm">{new Date(prediction.predicted_at).toLocaleDateString()}</td>
+                    <td className="px-6 py-4 text-sm">{prediction.predicted_at ? new Date(prediction.predicted_at).toLocaleDateString() : "-"}</td>
                     <td className="px-6 py-4 text-right">
                       <button onClick={() => handleEdit(prediction)} className="text-indigo-600 hover:text-indigo-900 mr-4"><Edit className="w-4 h-4" /></button>
                       <button onClick={() => handleDelete(prediction.id)} className="text-red-600 hover:text-red-900"><Trash2 className="w-4 h-4" /></button>

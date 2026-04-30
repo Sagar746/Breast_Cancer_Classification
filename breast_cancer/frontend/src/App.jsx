@@ -4,6 +4,7 @@ import { Toaster } from "react-hot-toast";
 import LoginPage from "./pages/LoginPage";
 import Dashboard from "./pages/Dashboard";
 import PatientsPage from "./pages/PatientsPage"; // Import PatientsPage
+import PredictionsPage from "./pages/PredictionsPage"; // Import PredictionsPage
 import { useAuthStore } from "./store/authStore";
 
 // Wraps any route that requires login
@@ -30,6 +31,11 @@ function App() {
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/patients" element={<PatientsPage />} /> //ProtectedRoute not added will do later comment for reminder
+        <Route path="/predictions" element={
+          <ProtectedRoute>
+            <PredictionsPage />
+          </ProtectedRoute>
+        } /> //ProtectedRoute added
   
 
         <Route
