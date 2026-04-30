@@ -55,57 +55,27 @@ async def create_prediction(
     if not patient_result.scalar_one_or_none():
         raise HTTPException(status_code=404, detail="Patient not found")
 
-    # If features are provided, use ML model for prediction
+    # If ALL features are provided, use ML model for prediction
     prediction_data = prediction.model_dump()
 
-    if any(prediction_data.get(feature) is not None for feature in [
+    feature_list = [
         'mean_radius', 'mean_texture', 'mean_perimeter', 'mean_area',
         'mean_smoothness', 'mean_compactness', 'mean_concavity',
-        'mean_concave_points', 'mean_symmetry', 'mean_fractal_dimension'
-    ]):
+        'mean_concave_points', 'mean_symmetry', 'mean_fractal_dimension',
+        'radius_error', 'texture_error', 'perimeter_error', 'area_error',
+        'smoothness_error', 'compactness_error', 'concavity_error',
+        'concave_points_error', 'symmetry_error', 'fractal_dimension_error',
+        'worst_radius', 'worst_texture', 'worst_perimeter', 'worst_area',
+        'worst_smoothness', 'worst_compactness', 'worst_concavity',
+        'worst_concave_points', 'worst_symmetry', 'worst_fractal_dimension'
+    ]
+
+    if all(prediction_data.get(feature) is not None for feature in feature_list):
         # Use ML model to make prediction
         predictor = get_predictor()
 
         # Extract features in correct order for Wisconsin dataset
-        features = [
-            prediction_data.get('mean_radius'),
-            prediction_data.get('mean_texture'),
-            prediction_data.get('mean_perimeter'),
-            prediction_data.get('mean_area'),
-            prediction_data.get('mean_smoothness'),
-            prediction_data.get('mean_compactness'),
-            prediction_data.get('mean_concavity'),
-            prediction_data.get('mean_concave_points'),
-            prediction_data.get('mean_symmetry'),
-            prediction_data.get('mean_fractal_dimension'),
-            prediction_data.get('radius_error'),
-            prediction_data.get('texture_error'),
-            prediction_data.get('perimeter_error'),
-            prediction_data.get('area_error'),
-            prediction_data.get('smoothness_error'),
-            prediction_data.get('compactness_error'),
-            prediction_data.get('concavity_error'),
-            prediction_data.get('concave_points_error'),
-            prediction_data.get('symmetry_error'),
-            prediction_data.get('fractal_dimension_error'),
-            prediction_data.get('worst_radius'),
-            prediction_data.get('worst_texture'),
-            prediction_data.get('worst_perimeter'),
-            prediction_data.get('worst_area'),
-            prediction_data.get('worst_smoothness'),
-            prediction_data.get('worst_compactness'),
-            prediction_data.get('worst_concavity'),
-            prediction_data.get('worst_concave_points'),
-            prediction_data.get('worst_symmetry'),
-            prediction_data.get('worst_fractal_dimension'),
-        ]
-
-        # Check if all features are provided
-        if None in features:
-            raise HTTPException(
-                status_code=400,
-                detail="All 30 features must be provided for ML prediction"
-            )
+        features = [prediction_data.get(feature) for feature in feature_list]
 
         try:
             ml_result = predictor.predict(features)

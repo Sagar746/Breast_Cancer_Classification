@@ -40,6 +40,8 @@ export const predictionsApi = {
   getAll: (params = {}) => api.get("/predictions", { params }),
   getById: (id) => api.get(`/predictions/${id}`),
   create: (data) => api.post("/predictions", data),
+  update: (id, data) => api.put(`/predictions/${id}`, data),
+  delete: (id) => api.delete(`/predictions/${id}`),
 };
 
 export default api;
