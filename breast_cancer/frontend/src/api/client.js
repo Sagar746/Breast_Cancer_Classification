@@ -29,9 +29,17 @@ export const authApi = {
 };
 
 export const patientsApi = {
-  getAll: () => api.get("/patients"),
+  getAll: (params = {}) => api.get("/patients", { params }),
   getById: (id) => api.get(`/patients/${id}`),
-  create: (data) => api.post("/patients", data), // to be continue for now to just check the page. 
+  create: (data) => api.post("/patients", data),
+  update: (id, data) => api.put(`/patients/${id}`, data),
+  delete: (id) => api.delete(`/patients/${id}`),
+};
+
+export const predictionsApi = {
+  getAll: (params = {}) => api.get("/predictions", { params }),
+  getById: (id) => api.get(`/predictions/${id}`),
+  create: (data) => api.post("/predictions", data),
 };
 
 export default api;

@@ -182,6 +182,19 @@ export default function PatientsPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <input type="text" placeholder="Patient Code" required value={formData.patient_code} onChange={(e) => setFormData({...formData, patient_code: e.target.value})} className="border p-2 rounded w-full" />
                 <input type="text" placeholder="Full Name" required value={formData.full_name} onChange={(e) => setFormData({...formData, full_name: e.target.value})} className="border p-2 rounded w-full" />
+                <input type="date" placeholder="Date of Birth" value={formData.date_of_birth} onChange={(e) => setFormData({...formData, date_of_birth: e.target.value})} className="border p-2 rounded w-full" />
+                <select value={formData.gender} onChange={(e) => setFormData({...formData, gender: e.target.value})} className="border p-2 rounded w-full">
+                  <option value="">Select Gender</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
+                </select>
+                <input type="tel" placeholder="Phone" value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} className="border p-2 rounded w-full" />
+                <input type="email" placeholder="Email" value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} className="border p-2 rounded w-full" />
+              </div>
+              <div className="grid grid-cols-1 gap-4">
+                <textarea placeholder="Address" value={formData.address} onChange={(e) => setFormData({...formData, address: e.target.value})} className="border p-2 rounded w-full" rows="3"></textarea>
+                <textarea placeholder="Notes" value={formData.notes} onChange={(e) => setFormData({...formData, notes: e.target.value})} className="border p-2 rounded w-full" rows="3"></textarea>
               </div>
               <div className="flex justify-end gap-4 pt-4">
                 <button type="button" onClick={() => setShowForm(false)} className="px-4 py-2 border rounded">Cancel</button>
