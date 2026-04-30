@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
-import { patientsApi, /*predictionsApi*/ } from "../api/client";
+import { patientsApi, predictionsApi } from "../api/client";
 import { Users, Activity, TrendingUp, LogOut, Plus, X } from "lucide-react";
 import toast from "react-hot-toast";
 
