@@ -14,10 +14,6 @@ export default function PredictionsPage() {
   
   const [formData, setFormData] = useState({
     patient_id: "",
-    prediction: "Benign",
-    confidence: 0.5,
-    malignant_prob: 0.5,
-    benign_prob: 0.5,
     model_version: "v1.0",
     threshold_used: 0.5,
     actual_diagnosis: null,
@@ -70,8 +66,8 @@ export default function PredictionsPage() {
 
   const resetForm = () => {
     setFormData({
-      patient_id: "", prediction: "Benign", confidence: 0.5, malignant_prob: 0.5,
-      benign_prob: 0.5, model_version: "v1.0", threshold_used: 0.5,
+      patient_id: "",
+      model_version: "v1.0", threshold_used: 0.5,
       actual_diagnosis: null, diagnosis_confirmed: false, notes: "",
       mean_radius: null, mean_texture: null, mean_perimeter: null, mean_area: null,
       mean_smoothness: null, mean_compactness: null, mean_concavity: null,
@@ -90,8 +86,6 @@ export default function PredictionsPage() {
     try {
       const updatedFormData = {
         ...formData,
-        malignant_prob: formData.prediction === "Malignant" ? formData.confidence : (1 - formData.confidence),
-        benign_prob: formData.prediction === "Benign" ? formData.confidence : (1 - formData.confidence),
         actual_diagnosis: formData.actual_diagnosis || null,
       };
 
@@ -202,15 +196,24 @@ export default function PredictionsPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">Result *</label>
-                  <select required value={formData.prediction} onChange={(e) => setFormData({...formData, prediction: e.target.value})} className="w-full p-2 border rounded-lg">
+                  <label className="block text-sm font-medium mb-1">Actual Diagnosis</label>
+                  <select value={formData.actual_diagnosis || ""} onChange={(e) => setFormData({...formData, actual_diagnosis: e.target.value || null})} className="w-full p-2 border rounded-lg">
+                    <option value="">Not set</option>
                     <option value="Benign">Benign</option>
                     <option value="Malignant">Malignant</option>
                   </select>
                 </div>
-                <div>
-                  <label className="block text-sm font-medium mb-1">Confidence (0-1) *</label>
-                  <input type="number" step="0.01" min="0" max="1" required value={formData.confidence} onChange={(e) => setFormData({...formData, confidence: parseFloat(e.target.value)})} className="w-full p-2 border rounded-lg" />
+                <div className="flex items-center gap-2 mt-2">
+                  <input
+                    type="checkbox"
+                    id="diagnosis_confirmed"
+                    checked={formData.diagnosis_confirmed}
+                    onChange={(e) => setFormData({...formData, diagnosis_confirmed: e.target.checked})}
+                    className="h-4 w-4 text-blue-600 border-gray-300 rounded"
+                  />
+                  <label htmlFor="diagnosis_confirmed" className="text-sm font-medium text-gray-700">
+                    Diagnosis Confirmed
+                  </label>
                 </div>
               </div>
 
