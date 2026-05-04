@@ -30,6 +30,6 @@ env/
 __pycache__/
 *.py[cod]
 .env
-backent/env/
+backend/env/
 
 # backend/app/models/*.pkl  # If you store ML models locally
