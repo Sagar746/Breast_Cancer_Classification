@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { predictionsApi, patientsApi } from "../api/client";
-import { Plus, Search, Edit, Trash2, ArrowLeft, AlertTriangle, CheckCircle } from "lucide-react";
+import { Plus, Search, Edit, Trash2, ArrowLeft, AlertTriangle, CheckCircle, Loader } from "lucide-react";
 import toast from "react-hot-toast";
 
 export default function PredictionsPage() {
   const [predictions, setPredictions] = useState([]);
   const [patients, setPatients] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [editingPrediction, setEditingPrediction] = useState(null);
@@ -88,6 +89,7 @@ export default function PredictionsPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setSubmitting(true);
       const updatedFormData = {
         ...formData,
         malignant_prob: formData.prediction === "Malignant" ? formData.confidence : (1 - formData.confidence),
@@ -108,6 +110,8 @@ export default function PredictionsPage() {
       resetForm();
     } catch (error) {
       toast.error(error.response?.data?.detail || "Failed to save prediction");
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -190,27 +194,35 @@ export default function PredictionsPage() {
 
       {showForm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto p-6">
+          <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto p-6 relative">
+            {submitting && (
+              <div className="absolute inset-0 bg-white bg-opacity-70 flex items-center justify-center rounded-lg z-10">
+                <div className="flex flex-col items-center gap-3">
+                  <Loader className="w-8 h-8 text-blue-600 animate-spin" />
+                  <p className="text-sm text-gray-600 font-medium">Processing prediction...</p>
+                </div>
+              </div>
+            )}
             <h2 className="text-xl font-bold mb-4">{editingPrediction ? "Edit" : "Add"} Prediction</h2>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium mb-1">Patient *</label>
-                  <select required value={formData.patient_id} onChange={(e) => setFormData({...formData, patient_id: e.target.value})} className="w-full p-2 border rounded-lg">
+                  <select required disabled={submitting} value={formData.patient_id} onChange={(e) => setFormData({...formData, patient_id: e.target.value})} className="w-full p-2 border rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed">
                     <option value="">Select Patient</option>
                     {patients.map(p => <option key={p.id} value={p.id}>{p.full_name}</option>)}
                   </select>
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1">Result *</label>
-                  <select required value={formData.prediction} onChange={(e) => setFormData({...formData, prediction: e.target.value})} className="w-full p-2 border rounded-lg">
+                  <select required disabled={submitting} value={formData.prediction} onChange={(e) => setFormData({...formData, prediction: e.target.value})} className="w-full p-2 border rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed">
                     <option value="Benign">Benign</option>
                     <option value="Malignant">Malignant</option>
                   </select>
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1">Confidence (0-1) *</label>
-                  <input type="number" step="0.01" min="0" max="1" required value={formData.confidence} onChange={(e) => setFormData({...formData, confidence: parseFloat(e.target.value)})} className="w-full p-2 border rounded-lg" />
+                  <input disabled={submitting} type="number" step="0.01" min="0" max="1" required value={formData.confidence} onChange={(e) => setFormData({...formData, confidence: parseFloat(e.target.value)})} className="w-full p-2 border rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed" />
                 </div>
               </div>
 
@@ -224,15 +236,24 @@ export default function PredictionsPage() {
                   ].map(field => (
                     <div key={field}>
                       <label className="block text-xs font-medium text-gray-600 mb-1 capitalize">{field.replace(/_/g, ' ')}</label>
-                      <input type="number" step="0.01" value={formData[field] || ""} onChange={(e) => setFormData({ ...formData, [field]: e.target.value ? parseFloat(e.target.value) : null })} className="w-full p-1 text-sm border rounded" />
+                      <input disabled={submitting} type="number" step="0.01" value={formData[field] || ""} onChange={(e) => setFormData({ ...formData, [field]: e.target.value ? parseFloat(e.target.value) : null })} className="w-full p-1 text-sm border rounded disabled:bg-gray-100 disabled:cursor-not-allowed" />
                     </div>
                   ))}
                 </div>
               </div>
 
               <div className="flex justify-end gap-4">
-                <button type="button" onClick={() => setShowForm(false)} className="px-4 py-2 border rounded-lg">Cancel</button>
-                <button type="submit" className="px-4 py-2 bg-rose-600 text-white rounded-lg hover:bg-rose-700">Save</button>
+                <button type="button" disabled={submitting} onClick={() => setShowForm(false)} className="px-4 py-2 border rounded-lg disabled:opacity-50 disabled:cursor-not-allowed">Cancel</button>
+                <button type="submit" disabled={submitting} className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
+                  {submitting ? (
+                    <>
+                      <Loader className="w-4 h-4 animate-spin" />
+                      Processing...
+                    </>
+                  ) : (
+                    'Save'
+                  )}
+                </button>
               </div>
             </form>
           </div>
