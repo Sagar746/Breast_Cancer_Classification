@@ -62,6 +62,12 @@ export default function PredictionsPage() {
     return patient ? patient.full_name : "Unknown Patient";
   };
 
+  const getConfidenceColor = (confidence) => {
+    if (confidence >= 0.8) return { bg: "bg-green-100", text: "text-green-800", bar: "bg-green-500" };
+    if (confidence >= 0.5) return { bg: "bg-yellow-100", text: "text-yellow-800", bar: "bg-yellow-500" };
+    return { bg: "bg-orange-100", text: "text-orange-800", bar: "bg-orange-500" };
+  };
+
   const filteredPredictions = predictions.filter(prediction => {
     const patientName = getPatientName(prediction.patient_id).toLowerCase();
     const predictionText = (prediction.prediction || "").toLowerCase();
@@ -177,7 +183,21 @@ export default function PredictionsPage() {
                         {prediction.prediction || "Unknown"}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-sm">{prediction.confidence ? (prediction.confidence * 100).toFixed(1) : '0'}%</td>
+                    <td className="px-6 py-4">
+                      <div className="flex flex-col gap-2">
+                        <div className="flex items-center gap-2">
+                          <div className="w-24 bg-gray-200 rounded-full h-2 overflow-hidden">
+                            <div
+                              className={`h-full transition-all ${getConfidenceColor(prediction.confidence).bar}`}
+                              style={{ width: `${(prediction.confidence || 0) * 100}%` }}
+                            ></div>
+                          </div>
+                          <span className={`text-xs font-semibold px-2 py-1 rounded-full ${getConfidenceColor(prediction.confidence).bg} ${getConfidenceColor(prediction.confidence).text}`}>
+                            {prediction.confidence ? (prediction.confidence * 100).toFixed(1) : '0'}%
+                          </span>
+                        </div>
+                      </div>
+                    </td>
                     <td className="px-6 py-4 text-sm">{prediction.actual_diagnosis || "-"} {prediction.diagnosis_confirmed && <CheckCircle className="w-3 h-3 text-green-500 inline ml-1" />}</td>
                     <td className="px-6 py-4 text-sm">{prediction.predicted_at ? new Date(prediction.predicted_at).toLocaleDateString() : "-"}</td>
                     <td className="px-6 py-4 text-right">
@@ -223,6 +243,19 @@ export default function PredictionsPage() {
                 <div>
                   <label className="block text-sm font-medium mb-1">Confidence (0-1) *</label>
                   <input disabled={submitting} type="number" step="0.01" min="0" max="1" required value={formData.confidence} onChange={(e) => setFormData({...formData, confidence: parseFloat(e.target.value)})} className="w-full p-2 border rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed" />
+                  <div className="mt-3 flex items-center gap-3">
+                    <div className="flex-1">
+                      <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                        <div
+                          className={`h-full transition-all ${getConfidenceColor(formData.confidence).bar}`}
+                          style={{ width: `${(formData.confidence || 0) * 100}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                    <span className={`text-sm font-semibold px-3 py-1 rounded-full ${getConfidenceColor(formData.confidence).bg} ${getConfidenceColor(formData.confidence).text} min-w-fit`}>
+                      {(formData.confidence * 100).toFixed(1)}%
+                    </span>
+                  </div>
                 </div>
               </div>
 
