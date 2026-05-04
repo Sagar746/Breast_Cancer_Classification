@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
 import { patientsApi, predictionsApi } from "../api/client";
-import { Users, Activity, TrendingUp, LogOut, Plus, X } from "lucide-react";
+import { Users, Activity, TrendingUp, LogOut, Plus, X, AlertCircle } from "lucide-react";
 import toast from "react-hot-toast";
 import AddPatient from "../components/AddPatient";
 
@@ -15,6 +15,8 @@ export default function Dashboard() {
   });
   const [loading, setLoading] = useState(true);
   const [showAddPatient, setShowAddPatient] = useState(false);
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false); // New state for modal
+  
   const { user, logout } = useAuthStore();
   const navigate = useNavigate();
   const location = useLocation();
@@ -64,11 +66,10 @@ export default function Dashboard() {
     }
   };
 
-  // Add patient handled in AddPatient component
-
   const handleLogout = () => {
     logout();
     navigate("/login");
+    toast.success("Successfully logged out");
   };
 
   if (loading) {
@@ -83,7 +84,46 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 relative">
+      {/* --- LOGOUT CONFIRMATION MODAL --- */}
+      {showLogoutConfirm && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+          {/* Blur Backdrop */}
+          <div 
+            className="absolute inset-0 bg-gray-900/40 backdrop-blur-md transition-opacity"
+            onClick={() => setShowLogoutConfirm(false)} 
+          />
+          
+          {/* Modal Content */}
+          <div className="relative bg-white rounded-2xl shadow-2xl max-w-sm w-full p-6 border border-gray-100 animate-in fade-in zoom-in duration-200">
+            <div className="flex flex-col items-center text-center">
+              <div className="w-12 h-12 bg-red-50 rounded-full flex items-center justify-center mb-4">
+                <AlertCircle className="w-6 h-6 text-red-600" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900">Confirm Logout</h3>
+              <p className="text-gray-500 mt-2">
+                Are you sure you want to end your session? You will need to log in again to access patient data.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3 mt-8">
+              <button
+                onClick={() => setShowLogoutConfirm(false)}
+                className="px-4 py-2.5 text-sm font-semibold text-gray-700 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleLogout}
+                className="px-4 py-2.5 text-sm font-semibold text-white bg-red-600 rounded-xl hover:bg-red-700 shadow-lg shadow-red-200 transition-all active:scale-95"
+              >
+                Logout
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <header className="bg-gradient-to-r from-blue-50 to-indigo-50 shadow-sm border-b border-blue-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -93,8 +133,8 @@ export default function Dashboard() {
               <p className="text-sm text-blue-700 mt-1"><span className="font-semibold">{user?.full_name}</span></p>
             </div>
             <button
-              onClick={handleLogout}
-              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-blue-700 bg-white border border-blue-200 rounded-lg hover:bg-blue-50 transition-colors"
+              onClick={() => setShowLogoutConfirm(true)}
+              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-red-600 bg-white border border-red-100 rounded-lg hover:bg-red-50 transition-colors shadow-sm"
             >
               <LogOut className="w-4 h-4" />
               Logout
@@ -203,7 +243,9 @@ export default function Dashboard() {
             className="bg-white p-6 rounded-lg shadow-sm border hover:shadow-md cursor-pointer transition-shadow"
           >
             <div className="flex items-center mb-4">
-              <Users className="w-8 h-8 text-blue-600" />
+              <span className="p-2 bg-blue-50 rounded-lg">
+                <Users className="w-8 h-8 text-blue-600" />
+              </span>
               <h3 className="ml-3 text-lg font-semibold text-gray-900">Patient Management</h3>
             </div>
             <p className="text-gray-600">Manage patient records, add new patients, and view patient details.</p>
@@ -214,7 +256,9 @@ export default function Dashboard() {
             className="bg-white p-6 rounded-lg shadow-sm border hover:shadow-md cursor-pointer transition-shadow"
           >
             <div className="flex items-center mb-4">
-              <Activity className="w-8 h-8 text-green-600" />
+              <span className="p-2 bg-green-50 rounded-lg">
+                <Activity className="w-8 h-8 text-green-600" />
+              </span>
               <h3 className="ml-3 text-lg font-semibold text-gray-900">Prediction Analysis</h3>
             </div>
             <p className="text-gray-600">View and analyze breast cancer predictions, manage diagnosis results.</p>
