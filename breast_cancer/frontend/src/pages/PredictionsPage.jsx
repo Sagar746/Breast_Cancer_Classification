@@ -215,7 +215,7 @@ export default function PredictionsPage() {
               </div>
 
               <div className="border-t pt-4">
-                <h3 className="text-lg font-medium mb-4">Feature Values (Optional)</h3>
+                <h3 className="text-lg font-medium mb-4">Feature Values</h3>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                   {[
                     'mean_radius', 'mean_texture', 'mean_perimeter', 'mean_area', 'mean_smoothness', 'mean_compactness', 'mean_concavity', 'mean_concave_points', 'mean_symmetry', 'mean_fractal_dimension',
