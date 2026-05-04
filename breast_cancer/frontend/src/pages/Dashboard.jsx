@@ -143,7 +143,13 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow-sm border">
+          <div
+            onClick={() => navigate('/malignant')}
+            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate('/malignant'); } }}
+            role="button"
+            tabIndex={0}
+            className="bg-white p-6 rounded-lg shadow-sm hover:shadow-lg hover:scale-105 transform transition-shadow transition-transform duration-150 ease-in-out cursor-pointer focus:outline-none focus:ring-2 focus:ring-red-400"
+          >
             <div className="flex items-center">
               <div className="p-2 bg-red-100 rounded-lg">
                 <TrendingUp className="w-6 h-6 text-red-600" />
@@ -155,7 +161,13 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow-sm border">
+          <div
+            onClick={() => navigate('/benign')}
+            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate('/benign'); } }}
+            role="button"
+            tabIndex={0}
+            className="bg-white p-6 rounded-lg shadow-sm hover:shadow-lg hover:scale-105 transform transition-shadow transition-transform duration-150 ease-in-out cursor-pointer focus:outline-none focus:ring-2 focus:ring-green-400"
+          >
             <div className="flex items-center">
               <div className="p-2 bg-green-100 rounded-lg">
                 <TrendingUp className="w-6 h-6 text-green-600" />
