@@ -111,16 +111,16 @@ export default function PatientsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow-sm border-b">
+      <header className="bg-gradient-to-r from-blue-50 to-indigo-50 shadow-sm border-b border-blue-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center gap-4">
-              <button onClick={() => navigate("/")} className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg">
+              <button onClick={() => navigate("/")} className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-blue-700 bg-white border border-blue-200 rounded-lg hover:bg-blue-50">
                 <ArrowLeft className="w-4 h-4" /> Back to Dashboard
               </button>
-              <h1 className="text-2xl font-bold text-gray-900">Patient Management</h1>
+              <h1 className="text-2xl font-bold text-blue-900">Patient Management</h1>
             </div>
-            <button onClick={openForm} className="flex items-center gap-2 px-4 py-2 bg-rose-600 text-white text-sm font-medium rounded-lg">
+            <button onClick={openForm} className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700">
               <Plus className="w-4 h-4" /> Add Patient
             </button>
           </div>
