@@ -35,12 +35,12 @@ export default function MalignantCases() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow-sm border-b">
+      <header className="bg-gradient-to-r from-blue-50 to-indigo-50 shadow-sm border-b border-blue-100">
         <div className="max-w-7xl mx-auto px-4 py-4 flex items-center gap-4">
-          <button onClick={() => navigate("/dashboard")} className="flex items-center gap-2 px-3 py-2 text-sm border rounded-lg hover:bg-gray-50">
+          <button onClick={() => navigate("/dashboard")} className="flex items-center gap-2 px-3 py-2 text-sm border rounded-lg hover:bg-blue-50 text-blue-700 border-blue-200">
             <ArrowLeft className="w-4 h-4" /> Back
           </button>
-          <h1 className="text-2xl font-bold text-red-600">Malignant Cases</h1>
+          <h1 className="text-2xl font-bold text-blue-900">Malignant Cases</h1>
         </div>
       </header>
 
