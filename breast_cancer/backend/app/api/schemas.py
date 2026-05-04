@@ -93,10 +93,10 @@ class PredictionBase(BaseModel):
     worst_concave_points: Optional[float] = None
     worst_symmetry: Optional[float] = None
     worst_fractal_dimension: Optional[float] = None
-    prediction: Literal["Malignant", "Benign"]
-    confidence: float
-    malignant_prob: float
-    benign_prob: float
+    prediction: Optional[Literal["Malignant", "Benign"]] = None
+    confidence: Optional[float] = None
+    malignant_prob: Optional[float] = None
+    benign_prob: Optional[float] = None
     model_version: str = "v1.0"
     threshold_used: float = 0.5
     actual_diagnosis: Optional[Literal["Malignant", "Benign"]] = None
