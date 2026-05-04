@@ -112,7 +112,7 @@ export default function Dashboard() {
             onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate('/patients'); } }}
             role="button"
             tabIndex={0}
-            className="bg-white p-6 rounded-lg shadow-sm border hover:shadow-md cursor-pointer transition-shadow"
+            className="bg-white p-6 rounded-lg shadow-sm border hover:shadow-lg hover:scale-105 transform transition-shadow transition-transform duration-150 ease-in-out cursor-pointer focus:outline-none focus:ring-2 focus:ring-rose-500"
           >
             <div className="flex items-center">
               <div className="p-2 bg-blue-100 rounded-lg">
@@ -125,7 +125,13 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow-sm border">
+          <div
+            onClick={() => navigate("/predictions")}
+            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate('/predictions'); } }}
+            role="button"
+            tabIndex={0}
+            className="bg-white p-6 rounded-lg shadow-sm border hover:shadow-lg hover:scale-105 transform transition-shadow transition-transform duration-150 ease-in-out cursor-pointer focus:outline-none focus:ring-2 focus:ring-rose-500"
+          >
             <div className="flex items-center">
               <div className="p-2 bg-green-100 rounded-lg">
                 <Activity className="w-6 h-6 text-green-600" />
