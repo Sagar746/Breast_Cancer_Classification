@@ -5,6 +5,8 @@ import LoginPage from "./pages/LoginPage";
 import Dashboard from "./pages/Dashboard";
 import PatientsPage from "./pages/PatientsPage"; // Import PatientsPage
 import PredictionsPage from "./pages/PredictionsPage"; // Import PredictionsPage
+import MalignantCases from "./pages/MalignantCases";
+import BenignCases from "./pages/BenignCases";
 import { useAuthStore } from "./store/authStore";
 
 // Wraps any route that requires login
@@ -36,6 +38,16 @@ function App() {
             <PredictionsPage />
           </ProtectedRoute>
         } /> //ProtectedRoute added
+        <Route path="/malignant" element={
+          <ProtectedRoute>
+            <MalignantCases />
+          </ProtectedRoute>
+        } />
+        <Route path="/benign" element={
+          <ProtectedRoute>
+            <BenignCases />
+          </ProtectedRoute>
+        } />
   
 
         <Route
