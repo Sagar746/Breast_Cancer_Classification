@@ -99,7 +99,7 @@ export default function Dashboard() {
               <p className="text-sm text-blue-700 mt-1"><span className="font-semibold">{user?.full_name}</span></p>
             </div>
             <button
-              onClick={handleLogoutClick}
+              onClick={handleLogout}
               className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-blue-700 bg-white border border-blue-200 rounded-lg hover:bg-blue-50 transition-colors"
             >
               <LogOut className="w-4 h-4" />

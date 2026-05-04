@@ -15,10 +15,6 @@ export default function PredictionsPage() {
   
   const [formData, setFormData] = useState({
     patient_id: "",
-    prediction: "Benign",
-    confidence: 0.5,
-    malignant_prob: 0.5,
-    benign_prob: 0.5,
     model_version: "v1.0",
     threshold_used: 0.5,
     actual_diagnosis: null,
@@ -77,8 +73,8 @@ export default function PredictionsPage() {
 
   const resetForm = () => {
     setFormData({
-      patient_id: "", prediction: "Benign", confidence: 0.5, malignant_prob: 0.5,
-      benign_prob: 0.5, model_version: "v1.0", threshold_used: 0.5,
+      patient_id: "",
+      model_version: "v1.0", threshold_used: 0.5,
       actual_diagnosis: null, diagnosis_confirmed: false, notes: "",
       mean_radius: null, mean_texture: null, mean_perimeter: null, mean_area: null,
       mean_smoothness: null, mean_compactness: null, mean_concavity: null,
@@ -98,8 +94,6 @@ export default function PredictionsPage() {
       setSubmitting(true);
       const updatedFormData = {
         ...formData,
-        malignant_prob: formData.prediction === "Malignant" ? formData.confidence : (1 - formData.confidence),
-        benign_prob: formData.prediction === "Benign" ? formData.confidence : (1 - formData.confidence),
         actual_diagnosis: formData.actual_diagnosis || null,
       };
 
