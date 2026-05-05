@@ -40,7 +40,7 @@ Out of scope: production cloud deployment, real patient data.**
 [Project Plans and Docs]: (https://docs.google.com/document/d/16n4F24i_5te_a5b5g8JXHXbEW_S9PwC7tDmXWFjvca0/edit?tab=t.0) <br>
 
 ## Team and Contributions ##
-   1. Sagar Tiwari / Pawanesh Kumar Bam**
+   1. Sagar Tiwari / Pawanesh Kumar Bam
      **Project Lead/ML Engineer/ Backend**
       1. Dataset collection and Preprocessing pipeline
       2. Model Training, Tuning and Evaluation
