@@ -12,7 +12,7 @@
  6. Database Schema
  7. Member Reflections
 
-## 1.Project Purpose
+## Project Purpose ##
 **This project presents a machine learning–powered web application designed to classify breast cancer tumors as malignant or benign using clinical diagnostic data. The system is built on the Wisconsin Breast Cancer Diagnostic (WBCD) dataset, which contains features computed from digitized images of fine needle aspirates (FNA) of breast masses.
 
 Early and accurate detection of breast cancer plays a critical role in improving patient survival rates. By leveraging machine learning techniques, this application aims to assist healthcare professionals in making faster and more reliable diagnostic decisions.
@@ -32,29 +32,29 @@ Document the full development process, sprint planning, and time allocation for 
 Out of scope: production cloud deployment, real patient data.**
 
 
-## 2. Deliverables and Links: ##
-**[Github Repository]: (https://github.com/Sagar746/Breast_Cancer_Classification/tree/dev)**
-**[Google Drive Folder]: (https://drive.google.com/drive/u/2/my-drive)**
-**[Trello Backlog]: (https://trello.com/b/ld37z6tD/breast-cancer-classification-backlog)**
-**[Time Tracking Sheet]: (https://docs.google.com/spreadsheets/d/1s9UnCmOu3g56DopwgZqEDift01xyxhy8xAIFw90iIX8/edit?gid=0#gid=0)**
-**[Project Plans and Docs]: (https://docs.google.com/document/d/16n4F24i_5te_a5b5g8JXHXbEW_S9PwC7tDmXWFjvca0/edit?tab=t.0)**
+## Deliverables and Links: ##
+1. [Github Repository]: (https://github.com/Sagar746/Breast_Cancer_Classification/tree/dev)
+2. [Google Drive Folder]: (https://drive.google.com/drive/u/2/my-drive)**
+3. [Trello Backlog]: (https://trello.com/b/ld37z6tD/breast-cancer-classification-backlog)
+4. [Time Tracking Sheet]: (https://docs.google.com/spreadsheets/d/1s9UnCmOu3g56DopwgZqEDift01xyxhy8xAIFw90iIX8/edit?gid=0#gid=0)
+5. [Project Plans and Docs]: (https://docs.google.com/document/d/16n4F24i_5te_a5b5g8JXHXbEW_S9PwC7tDmXWFjvca0/edit?tab=t.0)
 
-## 3. Team and Contributions ##
-   **a. Sagar Tiwari / Pawanesh Kumar Bam**
-   **Project Lead/ML Engineer/ Backend
-   ....* Dataset collection and Preprocessing pipeline
-   ....* Model Training, Tuning and Evaluation
-   ....* Sprint Planning and Trello Management
-   ....* FastAPI Rest endpoint design
-   ....* SQLITE schema design and migrations
+## Team and Contributions ##
+   1. Sagar Tiwari / Pawanesh Kumar Bam**
+    **Project Lead/ML Engineer/ Backend**
+   Dataset collection and Preprocessing pipeline
+   Model Training, Tuning and Evaluation
+   Sprint Planning and Trello Management
+   FastAPI Rest endpoint design
+   SQLITE schema design and migrations
 
-   **b. Otshal Puri / Baidehi Shah**
+   2. Otshal Puri / Baidehi Shah
      **FRONTEND DEVELOPER**
-     ....* React Component Architecture
-     ....* Prediction Form and Result Dashboard
-     ....* API Integration and error handling
-     ....* Responsive styling and accessibility
-     ....* Time Tracking Sheet maintenance
+      1. React Component Architecture
+      2. Prediction Form and Result Dashboard
+      3. API Integration and error handling
+      4. Responsive styling and accessibility
+      5. Time Tracking Sheet maintenance
 
 ## 4. Technology Stack ##
       1. Python :  Core Language backend and ML PipeLine
