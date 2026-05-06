@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { predictionsApi, patientsApi } from "../api/client";
-import { Plus, Search, Edit, Trash2, ArrowLeft, AlertTriangle, CheckCircle } from "lucide-react";
+import { Plus, Search, Edit, Trash2, ArrowLeft, AlertTriangle, CheckCircle, ChevronDown } from "lucide-react";
 import toast from "react-hot-toast";
 
 export default function PredictionsPage() {
@@ -11,6 +11,7 @@ export default function PredictionsPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [editingPrediction, setEditingPrediction] = useState(null);
+  const [expandedSections, setExpandedSections] = useState({ mean: true, error: false, worst: false });
   
   const [formData, setFormData] = useState({
     patient_id: "",
@@ -218,18 +219,72 @@ export default function PredictionsPage() {
               </div>
 
               <div className="border-t pt-4">
-                <h3 className="text-lg font-medium mb-4">Feature Values (Optional)</h3>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                  {[
-                    'mean_radius', 'mean_texture', 'mean_perimeter', 'mean_area', 'mean_smoothness', 'mean_compactness', 'mean_concavity', 'mean_concave_points', 'mean_symmetry', 'mean_fractal_dimension',
-                    'radius_error', 'texture_error', 'perimeter_error', 'area_error', 'smoothness_error', 'compactness_error', 'concavity_error', 'concave_points_error', 'symmetry_error', 'fractal_dimension_error',
-                    'worst_radius', 'worst_texture', 'worst_perimeter', 'worst_area', 'worst_smoothness', 'worst_compactness', 'worst_concavity', 'worst_concave_points', 'worst_symmetry', 'worst_fractal_dimension'
-                  ].map(field => (
-                    <div key={field}>
-                      <label className="block text-xs font-medium text-gray-600 mb-1 capitalize">{field.replace(/_/g, ' ')}</label>
-                      <input type="number" step="0.01" value={formData[field] || ""} onChange={(e) => setFormData({ ...formData, [field]: e.target.value ? parseFloat(e.target.value) : null })} className="w-full p-1 text-sm border rounded" />
+                <h3 className="text-lg font-medium mb-4">Feature Values</h3>
+                
+                {/* Mean Features Section */}
+                <div className="mb-4 border rounded-lg">
+                  <button
+                    type="button"
+                    onClick={() => setExpandedSections({...expandedSections, mean: !expandedSections.mean})}
+                    className="w-full flex items-center justify-between px-4 py-3 bg-blue-50 hover:bg-blue-100 rounded-lg font-medium text-blue-900"
+                  >
+                    <span>📊 Mean Features</span>
+                    <ChevronDown className={`w-5 h-5 transform transition-transform ${expandedSections.mean ? 'rotate-180' : ''}`} />
+                  </button>
+                  {expandedSections.mean && (
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 p-4">
+                      {['mean_radius', 'mean_texture', 'mean_perimeter', 'mean_area', 'mean_smoothness', 'mean_compactness', 'mean_concavity', 'mean_concave_points', 'mean_symmetry', 'mean_fractal_dimension'].map(field => (
+                        <div key={field}>
+                          <label className="block text-xs font-medium text-gray-600 mb-1 capitalize">{field.replace(/mean_|_/g, ' ').trim()}</label>
+                          <input type="number" step="0.01" value={formData[field] || ""} onChange={(e) => setFormData({ ...formData, [field]: e.target.value ? parseFloat(e.target.value) : null })} className="w-full p-2 text-sm border rounded" />
+                        </div>
+                      ))}
                     </div>
-                  ))}
+                  )}
+                </div>
+
+                {/* Error Features Section */}
+                <div className="mb-4 border rounded-lg">
+                  <button
+                    type="button"
+                    onClick={() => setExpandedSections({...expandedSections, error: !expandedSections.error})}
+                    className="w-full flex items-center justify-between px-4 py-3 bg-amber-50 hover:bg-amber-100 rounded-lg font-medium text-amber-900"
+                  >
+                    <span>⚠️ Error Features (Standard Deviation)</span>
+                    <ChevronDown className={`w-5 h-5 transform transition-transform ${expandedSections.error ? 'rotate-180' : ''}`} />
+                  </button>
+                  {expandedSections.error && (
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 p-4">
+                      {['radius_error', 'texture_error', 'perimeter_error', 'area_error', 'smoothness_error', 'compactness_error', 'concavity_error', 'concave_points_error', 'symmetry_error', 'fractal_dimension_error'].map(field => (
+                        <div key={field}>
+                          <label className="block text-xs font-medium text-gray-600 mb-1 capitalize">{field.replace(/_error|_/g, ' ').trim()}</label>
+                          <input type="number" step="0.01" value={formData[field] || ""} onChange={(e) => setFormData({ ...formData, [field]: e.target.value ? parseFloat(e.target.value) : null })} className="w-full p-2 text-sm border rounded" />
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Worst Features Section */}
+                <div className="mb-4 border rounded-lg">
+                  <button
+                    type="button"
+                    onClick={() => setExpandedSections({...expandedSections, worst: !expandedSections.worst})}
+                    className="w-full flex items-center justify-between px-4 py-3 bg-red-50 hover:bg-red-100 rounded-lg font-medium text-red-900"
+                  >
+                    <span>🔴 Worst Features</span>
+                    <ChevronDown className={`w-5 h-5 transform transition-transform ${expandedSections.worst ? 'rotate-180' : ''}`} />
+                  </button>
+                  {expandedSections.worst && (
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 p-4">
+                      {['worst_radius', 'worst_texture', 'worst_perimeter', 'worst_area', 'worst_smoothness', 'worst_compactness', 'worst_concavity', 'worst_concave_points', 'worst_symmetry', 'worst_fractal_dimension'].map(field => (
+                        <div key={field}>
+                          <label className="block text-xs font-medium text-gray-600 mb-1 capitalize">{field.replace(/worst_|_/g, ' ').trim()}</label>
+                          <input type="number" step="0.01" value={formData[field] || ""} onChange={(e) => setFormData({ ...formData, [field]: e.target.value ? parseFloat(e.target.value) : null })} className="w-full p-2 text-sm border rounded" />
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
 
